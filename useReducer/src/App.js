@@ -1,14 +1,14 @@
 import React, { useReducer } from "react";
 
 const INCREMENT = "increment";
-const DECREMENT = "";
+const DECREMENT = "decrement";
 // 자동완성 기능을 통해 정확하게 하게 하기 위해서 변수선언해준다
 
 const reducer = (state, action) => {
   switch (action.type) {
     case INCREMENT:
       return { count: state.count + 1 };
-    case "decrement":
+    case DECREMENT:
       return { count: state.count - 1 };
     default:
       throw new Error();
@@ -17,6 +17,9 @@ const reducer = (state, action) => {
 /* 2개의 인자를 받는데 하나는 현재의 state, 두번째는 action(이름은 아무것이나 해도 된다)이다
    action은 type(이 이름도 아무거나 해도 된다)이라는 것을 가져온다. 
    action.type이 increment라면... return(~~)하는 것이다
+
+   default: 위의 경우 2가지 경우가 아니면 바로 Error를 던지라는 의미이다. 왜냐면 우리가 만족하는 어떤 action.type도 
+   보내지 않았기 때문이다
 
 */
 function App() {
@@ -37,8 +40,8 @@ function App() {
   return (
     <>
       <h1>{state.count}</h1>
-      <button onClick={() => dispatch({ type: "increment" })}>Add</button>
-      <button />
+      <button onClick={() => dispatch({ type: INCREMENT })}>Add</button>
+      <button onClick={() => dispatch({ type: DECREMENT })}>Remove</button>
     </>
   );
 }
