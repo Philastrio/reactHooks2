@@ -37,8 +37,34 @@ const App = () => {
             <button onClick={() => dispatch({ type: DEL, payload: toDo.id })}>
               삭제
             </button>
+            <button onClick={() => dispatch({ type: DEL, payload: toDo.id })}>
+              등록
+            </button>
           </li>
         ))}
+      </ul>
+      <ul>
+        {state.completed.length !== 0 && (
+          <>
+            (<h2>완료 목록</h2>
+            {state.completed.map((toDo, index) => (
+              <li key={toDo.id}>
+                <span>{toDo.text}</span>
+                <button
+                  onClick={() => dispatch({ type: DEL, payload: toDo.id })}
+                >
+                  삭제
+                </button>
+                <button
+                  onClick={() => dispatch({ type: DEL, payload: toDo.id })}
+                >
+                  등록
+                </button>
+              </li>
+            ))}
+            )
+          </>
+        )}
       </ul>
     </>
   );

@@ -1,7 +1,8 @@
 import uuid from "uuid/v4";
 
 export const initialState = {
-  toDos: []
+  toDos: [],
+  completed: []
 };
 
 export const ADD = "add";
@@ -11,10 +12,12 @@ const reducer = (state, action) => {
   switch (action.type) {
     case ADD:
       return {
+        ...state,
         toDos: [...state.toDos, { id: uuid(), text: action.payload }]
       };
     case DEL:
       return {
+        ...state,
         toDos: state.toDos.filter(toDo => {
           console.log("Current: ", toDo.id, "Target: ", action.payload);
           return toDo.id !== action.payload;
