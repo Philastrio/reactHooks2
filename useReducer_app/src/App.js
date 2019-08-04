@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import reducer, { initialState, ADD, DEL } from "./reducer";
+import reducer, { initialState, ADD, DEL, COMPLETE } from "./reducer";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -37,7 +37,9 @@ const App = () => {
             <button onClick={() => dispatch({ type: DEL, payload: toDo.id })}>
               삭제
             </button>
-            <button onClick={() => dispatch({ type: DEL, payload: toDo.id })}>
+            <button
+              onClick={() => dispatch({ type: COMPLETE, payload: toDo.id })}
+            >
               등록
             </button>
           </li>
@@ -46,7 +48,7 @@ const App = () => {
       <ul>
         {state.completed.length !== 0 && (
           <>
-            (<h2>완료 목록</h2>
+            <h2>완료 목록</h2>
             {state.completed.map((toDo, index) => (
               <li key={toDo.id}>
                 <span>{toDo.text}</span>
@@ -62,7 +64,6 @@ const App = () => {
                 </button>
               </li>
             ))}
-            )
           </>
         )}
       </ul>
