@@ -1,72 +1,31 @@
-import React, { useReducer, useState } from "react";
-import reducer, { initialState, ADD, DEL, COMPLETE } from "./reducer";
+import React from "react";
+import Add from "./Add";
+import { useMyState } from "./context";
+import List from "./List";
+import ToDo from "./ToDo";
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [newTodo, setNewTodo] = useState("");
-
-  const onSubmit = e => {
-    e.preventDefault();
-    // 새로고침 하지말라는 것으로, 쉽게 말해 아무것도 안하겠다는 의미이다.
-    dispatch({ type: ADD, payload: newTodo });
-  };
-
-  const onChange = e => {
-    const {
-      target: { value }
-    } = e;
-    setNewTodo(value);
-  };
+  const { toDos, completed } = useMyState();
 
   return (
     <>
-      <h1>오늘의 할일 목록</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          value={newTodo}
-          type="text"
-          placeholder="할일 추가"
-          onChange={onChange}
-        />
-      </form>
-      <ul>
+      <Add />
+      <List name={"오늘 할일"}>
         <h2>할일 목록</h2>
-        {state.toDos.map((toDo, index) => (
-          <li key={toDo.id}>
-            <span>{toDo.text}</span>
-            <button onClick={() => dispatch({ type: DEL, payload: toDo.id })}>
-              삭제
-            </button>
-            <button
-              onClick={() => dispatch({ type: COMPLETE, payload: toDo.id })}
-            >
-              등록
-            </button>
-          </li>
+        {toDos.map(toDo => (
+          <ToDo key={toDo.id} id={toDo.id} text={toDo.text} />
         ))}
-      </ul>
-      <ul>
-        {state.completed.length !== 0 && (
-          <>
-            <h2>완료 목록</h2>
-            {state.completed.map((toDo, index) => (
-              <li key={toDo.id}>
-                <span>{toDo.text}</span>
-                <button
-                  onClick={() => dispatch({ type: DEL, payload: toDo.id })}
-                >
-                  삭제
-                </button>
-                <button
-                  onClick={() => dispatch({ type: DEL, payload: toDo.id })}
-                >
-                  등록
-                </button>
-              </li>
-            ))}
-          </>
-        )}
-      </ul>
+      </List>
+      <List name={completed.length !== 0 ? "완료목록" : ""}>
+        {completed.map(toDo => (
+          <ToDo
+            key={toDo.id}
+            id={toDo.id}
+            text={toDo.text}
+            isCompleted={true}
+          />
+        ))}
+      </List>
     </>
   );
 };
